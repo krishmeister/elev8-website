@@ -235,7 +235,7 @@ const Features = () => {
                 </div>
 
                 {/* Bento Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[300px]">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-auto md:auto-rows-[300px]">
 
                     {/* Card 1: Large - No Hardware (Span 2 cols, 2 rows) */}
                     <motion.div

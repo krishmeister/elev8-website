@@ -66,7 +66,7 @@ export default function TokenomicsPage() {
                                 className="bg-white/5 border border-white/10 p-6 rounded-lg backdrop-blur-md flex flex-col items-center justify-center text-center gap-2 hover:bg-white/10 transition-colors"
                             >
                                 <span className="text-xs text-gray-400 tracking-widest font-mono">{stat.label}</span>
-                                <span className="text-2xl font-mono text-cyan-400 font-bold">{stat.value}</span>
+                                <span className="text-lg md:text-2xl font-mono text-cyan-400 font-bold break-all">{stat.value}</span>
                             </div>
                         ))}
                     </div>
@@ -164,7 +164,7 @@ export default function TokenomicsPage() {
                 <section className="w-full max-w-7xl mx-auto my-32 p-[1px] rounded-3xl bg-gradient-to-r from-cyan-500/50 via-purple-500/50 to-cyan-500/50 relative group">
                     <div className="absolute inset-0 bg-purple-600/30 blur-[150px] -z-10" />
 
-                    <div className="h-full w-full bg-black/80 backdrop-blur-xl rounded-3xl p-12 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+                    <div className="h-full w-full bg-black/80 backdrop-blur-xl rounded-3xl p-6 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
 
                         {/* Left Side: Pitch */}
                         <div className="flex-1 text-center md:text-left z-10">
@@ -176,7 +176,7 @@ export default function TokenomicsPage() {
 
                         {/* Right Side: Action */}
                         <div className="flex flex-col items-center gap-6 z-10">
-                            <button className="relative overflow-hidden rounded-full px-12 py-6 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold font-mono text-xl tracking-wider uppercase shadow-[0_0_30px_rgba(6,182,212,0.5)] hover:shadow-[0_0_60px_rgba(139,92,246,0.8)] hover:scale-105 transition-all duration-300 group">
+                            <button className="relative overflow-hidden rounded-full px-6 py-4 md:px-12 md:py-6 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold font-mono text-sm md:text-xl tracking-wider uppercase shadow-[0_0_30px_rgba(6,182,212,0.5)] hover:shadow-[0_0_60px_rgba(139,92,246,0.8)] hover:scale-105 transition-all duration-300 group">
                                 <span className="relative z-10 flex items-center gap-3">
                                     <Wallet className="w-6 h-6 fill-current" />
                                     BUY $ELEV8 NOW

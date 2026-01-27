@@ -210,7 +210,7 @@ export default function RoadmapPage() {
                                         </ul>
 
                                         {/* Status Badge */}
-                                        <div className={`absolute top-4 right-4 md:static md:mt-6 inline-flex items-center gap-2 px-3 py-1 bg-black/50 rounded text-[10px] font-bold tracking-widest ${phase.statusColor} border border-white/5`}>
+                                        <div className={`relative mt-6 w-fit md:absolute md:top-4 md:right-4 md:mt-0 inline-flex items-center gap-2 px-3 py-1 bg-black/50 rounded text-[10px] font-bold tracking-widest ${phase.statusColor} border border-white/5`}>
                                             {phase.status}
                                         </div>
                                     </div>
