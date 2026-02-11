@@ -23,79 +23,90 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Handle Query Param Scroll (Cross-Page Robustness)
+    // Handle Hash & Query Param Scroll (Robust Cross-Page & Same-Page)
     useEffect(() => {
-        const target = searchParams.get('target');
-        if (target) {
+        const handleRobustScroll = () => {
+            // Check for target param OR hash
+            const targetParam = searchParams.get('target');
+            const hash = window.location.hash.replace('#', '');
+            const target = targetParam || (hash ? hash : null);
 
-            // Helper to attempt scroll
-            const attemptScroll = () => {
-                const element = document.getElementById(target);
-                if (element) {
-                    // Offset for fixed header (approx 100px)
-                    const headerOffset = 100;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+            if (target) {
+                const attemptScroll = () => {
+                    const element = document.getElementById(target);
+                    if (element) {
+                        const headerOffset = 100;
+                        const elementPosition = element.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                        return true;
+                    }
+                    return false;
+                };
 
-                    // Clean URL after successful scroll
-                    const newUrl = window.location.pathname;
-                    window.history.replaceState({}, '', newUrl);
-                    return true;
-                }
-                return false;
-            };
+                // Instant attempt
+                if (attemptScroll()) return;
 
-            // Immediate attempt
-            if (attemptScroll()) return;
+                // Poll for lazy loaded content
+                const interval = setInterval(() => {
+                    if (attemptScroll()) {
+                        clearInterval(interval);
+                    }
+                }, 100);
 
-            // Poll for dynamic content (up to 5 seconds)
-            const interval = setInterval(() => {
-                if (attemptScroll()) {
+                const timeout = setTimeout(() => clearInterval(interval), 5000);
+
+                return () => {
                     clearInterval(interval);
-                }
-            }, 100);
-
-            const timeout = setTimeout(() => clearInterval(interval), 5000);
-
-            return () => {
-                clearInterval(interval);
-                clearTimeout(timeout);
-            };
-        }
-    }, [searchParams]);
-
-    const handleNav = (item: string) => {
-        const targetId = item.toLowerCase();
-
-        if (item === 'Home') {
-            if (pathname === '/') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                router.push('/');
+                    clearTimeout(timeout);
+                };
             }
-        } else {
-            // Games / Team / Docs
-            if (pathname === '/') {
-                const element = document.getElementById(targetId);
-                if (element) {
-                    const headerOffset = 100;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
-                }
-            } else {
-                // Cross-page navigation via Query Param
-                // scroll: false prevents Next.js from forcing scroll to top,
-                // allowing our useEffect to handle it gracefully
+        };
+
+        handleRobustScroll();
+    }, [searchParams, pathname]); // Re-run on path change/params
+
+    const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        // If NOT on homepage, handle cross-page section navigation
+        if (pathname !== '/') {
+            if (href.startsWith('/#')) {
+                e.preventDefault();
+                const targetId = href.replace('/#', '');
+                // Navigate to homepage with query param for more robust scrolling
                 router.push(`/?target=${targetId}`, { scroll: false });
+                setIsOpen(false);
+                return;
+            }
+        }
+
+        // On homepage
+        if (href.startsWith('/#')) {
+            const targetId = href.replace('/#', '');
+            const element = document.getElementById(targetId);
+
+            if (element) {
+                e.preventDefault();
+                const headerOffset = 100;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+
+                // Manually update URL without jumping
+                window.history.pushState({}, '', href);
+            }
+        }
+        else if (href === '/') {
+            if (pathname === '/') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
         setIsOpen(false);
@@ -114,7 +125,7 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="flex items-center justify-between">
                     {/* Logo (Neon Sign Upgrade) */}
-                    <Link href="/" className="flex items-center gap-2 group ml-4">
+                    <Link href="/" className="flex items-center gap-2 group ml-4" onClick={(e) => handleLinkClick(e, '/')}>
                         <div className="relative h-12 md:h-20 w-auto transition-transform duration-300 group-hover:scale-105">
                             <Image
                                 src="/elev8-logo.png"
@@ -134,25 +145,19 @@ const Navbar = () => {
                             { name: 'Home', href: '/' },
                             { name: 'Team', href: '/#team' },
                             { name: 'Games', href: '/#games' },
-                            { name: 'Roadmap', href: '/roadmap' },
-                            { name: 'Tokenomics', href: '/tokenomics' },
-                            { name: 'Whitepaper', href: '/whitepaper' }
+                            { name: 'Contact', href: '/#contact' }
                         ].map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                scroll={false} // Prevent Next.js scroll-to-top, let our logic handle it
+                                scroll={false}
+                                onClick={(e) => handleLinkClick(e, item.href)}
                                 className="relative text-xs font-bold font-orbitron uppercase tracking-widest text-white/90 transition-all duration-300 hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] group"
                             >
                                 {item.name}
                                 <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-cyan-400 transition-all duration-300 group-hover:w-full box-shadow-[0_0_8px_cyan]" />
                             </Link>
                         ))}
-
-                        <button className="relative px-8 py-3 rounded-full font-orbitron font-black text-xs uppercase tracking-widest bg-transparent border-2 border-cyan-500 text-cyan-400 overflow-hidden group hover:text-black hover:border-cyan-400 transition-colors duration-300 shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.6)]">
-                            <span className="relative z-10 group-hover:text-black transition-colors duration-300">Source</span>
-                            <div className="absolute inset-0 bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                        </button>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -178,23 +183,21 @@ const Navbar = () => {
                             { name: 'Home', href: '/' },
                             { name: 'Team', href: '/#team' },
                             { name: 'Games', href: '/#games' },
-                            { name: 'Roadmap', href: '/roadmap' },
-                            { name: 'Tokenomics', href: '/tokenomics' },
-                            { name: 'Whitepaper', href: '/whitepaper' }
+                            { name: 'Contact', href: '/#contact' }
                         ].map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
                                 scroll={false}
                                 className="text-xl font-orbitron font-bold uppercase tracking-wider text-white hover:text-cyan-400 hover:drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-all text-left"
-                                onClick={() => setIsOpen(false)}
+                                onClick={(e) => {
+                                    setIsOpen(false);
+                                    handleLinkClick(e, item.href);
+                                }}
                             >
                                 {item.name}
                             </Link>
                         ))}
-                        <button className="w-full py-4 mt-4 rounded-xl font-orbitron font-black text-sm uppercase tracking-widest bg-cyan-500 text-black hover:bg-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.5)] transition-all">
-                            Source
-                        </button>
                     </div>
                 </motion.div>
             )}

@@ -29,7 +29,7 @@ const Contact = () => {
     };
 
     return (
-        <section className="pt-32 pb-0 bg-black relative overflow-hidden">
+        <section className="pt-32 pb-0 bg-black relative overflow-hidden scroll-mt-32" id="contact">
             {/* Background Gradients */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-aurora-purple/10 rounded-full blur-[100px]" />
