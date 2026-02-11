@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
@@ -8,7 +8,8 @@ import { motion } from 'framer-motion';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-const Navbar = () => {
+// Helper component to handle search params logic within a Suspense boundary
+const NavbarContent = () => {
     const [scrolled, setScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
@@ -28,7 +29,7 @@ const Navbar = () => {
         const handleRobustScroll = () => {
             // Check for target param OR hash
             const targetParam = searchParams.get('target');
-            const hash = window.location.hash.replace('#', '');
+            const hash = typeof window !== 'undefined' ? window.location.hash.replace('#', '') : '';
             const target = targetParam || (hash ? hash : null);
 
             if (target) {
@@ -202,6 +203,14 @@ const Navbar = () => {
                 </motion.div>
             )}
         </motion.nav>
+    );
+};
+
+const Navbar = () => {
+    return (
+        <Suspense fallback={<div className="fixed top-0 w-full h-20 bg-black/50 backdrop-blur-xl z-50" />}>
+            <NavbarContent />
+        </Suspense>
     );
 };
 
