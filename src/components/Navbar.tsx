@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, Zap } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -145,33 +145,20 @@ const NavbarContent = () => {
                         {[
                             { name: 'Home', href: '/' },
                             { name: 'Team', href: '/#team' },
-                            { name: 'Games', href: '/#games' },
-                            { name: 'Roadmap', href: '/roadmap' },
-                            { name: 'Tokenomics', href: '/tokenomics' },
-                            { name: 'Whitepaper', href: '/whitepaper' }
+                            { name: 'Games', href: '/#games' }
                         ].map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
                                 scroll={false}
                                 onClick={(e) => handleLinkClick(e, item.href)}
-                                className="relative text-xs font-bold font-orbitron uppercase tracking-widest text-white/90 transition-all duration-300 hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] group"
+                                className="relative text-sm font-bold font-orbitron uppercase tracking-widest text-white/90 transition-all duration-300 hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] group"
                             >
                                 {item.name}
                                 <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-cyan-400 transition-all duration-300 group-hover:w-full box-shadow-[0_0_8px_cyan]" />
                             </Link>
                         ))}
-                        {/* CTA Button (Liquid Cyber Style) */}
-                        <button className="relative px-8 py-3 rounded-full font-orbitron font-black text-xs uppercase tracking-widest bg-transparent border-2 border-cyan-500 text-cyan-400 overflow-hidden group hover:text-black hover:border-cyan-400 transition-colors duration-300 shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.6)]">
-                            <span className="relative z-10 group-hover:text-black transition-colors duration-300 flex items-center gap-2">
-                                <Zap size={16} className="group-hover:fill-black transition-colors duration-300" />
-                                BUY $ELEV8
-                            </span>
-                            <div className="absolute inset-0 bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
-                            {/* Shimmer Effect */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:animate-shimmer" />
-                        </button>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -204,9 +191,6 @@ const NavbarContent = () => {
                             { name: 'Home', href: '/' },
                             { name: 'Team', href: '/#team' },
                             { name: 'Games', href: '/#games' },
-                            { name: 'Roadmap', href: '/roadmap' },
-                            { name: 'Tokenomics', href: '/tokenomics' },
-                            { name: 'Whitepaper', href: '/whitepaper' },
                             { name: 'Contact', href: '/#contact' }
                         ].map((item) => (
                             <Link
@@ -223,16 +207,7 @@ const NavbarContent = () => {
                         ))}
                     </nav>
 
-                    {/* Mobile CTA */}
-                    <div className="mt-12">
-                        <button className="relative px-8 py-4 rounded-full font-orbitron font-black text-sm uppercase tracking-widest bg-gradient-to-r from-cyan-500 to-blue-600 text-white overflow-hidden group hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(6,182,212,0.5)]">
-                            <span className="relative z-10 flex items-center gap-2">
-                                <Zap size={18} className="fill-current" />
-                                BUY $ELEV8
-                            </span>
-                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                        </button>
-                    </div>
+
                 </motion.div>
             )}
         </motion.nav>

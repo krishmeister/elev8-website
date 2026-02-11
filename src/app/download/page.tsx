@@ -7,6 +7,7 @@ import { Footer } from "@/components/Contact";
 import { Lock, Gamepad2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const DownloadPage = () => {
     return (
@@ -298,6 +299,49 @@ const PlatformCard = ({
         }
     };
 
+    const CardContent = (
+        <motion.a
+            href={active ? href : undefined}
+            target={active && !href.startsWith('/') ? "_blank" : undefined}
+            rel={active && !href.startsWith('/') ? "noopener noreferrer" : undefined}
+            onClick={handleClick}
+            onMouseMove={(e) => handleMouseMove(e as unknown as React.MouseEvent<HTMLDivElement>)}
+            onMouseLeave={handleMouseLeave}
+            style={{
+                rotateX: active ? rotateX : 0,
+                rotateY: active ? rotateY : 0,
+            }}
+            className={`
+                relative w-full block rounded-xl p-[2px] group transition-all duration-75 ease-out
+                ${active ? 'cursor-pointer active:scale-95' : 'cursor-not-allowed'}
+            `}
+        >
+            {/* Visual Card Container */}
+            <div className={`
+                relative w-full h-full rounded-xl p-4 md:p-4 
+                bg-black/60 backdrop-blur-xl border border-white/10 
+                transition-all duration-75 ease-out overflow-hidden
+                ${getGlowColor()}
+                ${className}
+            `}>
+                {/* Locked "Signal Noise" Overlay */}
+                {!active && (
+                    <div
+                        className="absolute inset-0 opacity-20 pointer-events-none z-0 mix-blend-overlay"
+                        style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                        }}
+                    />
+                )}
+
+                {/* Content */}
+                <div className="relative z-10 w-full">
+                    {children}
+                </div>
+            </div>
+        </motion.a>
+    );
+
     return (
         <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -312,46 +356,13 @@ const PlatformCard = ({
             }}
             className="w-full"
         >
-            <motion.a
-                href={active ? href : undefined}
-                target={active && !href.startsWith('/') ? "_blank" : undefined}
-                rel={active && !href.startsWith('/') ? "noopener noreferrer" : undefined}
-                onClick={handleClick}
-                onMouseMove={(e) => handleMouseMove(e as unknown as React.MouseEvent<HTMLDivElement>)}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                    rotateX: active ? rotateX : 0,
-                    rotateY: active ? rotateY : 0,
-                }}
-                className={`
-                    relative w-full block rounded-xl p-[2px] group transition-all duration-75 ease-out
-                    ${active ? 'cursor-pointer active:scale-95' : 'cursor-not-allowed'}
-                `}
-            >
-                {/* Visual Card Container */}
-                <div className={`
-                    relative w-full h-full rounded-xl p-4 md:p-4 
-                    bg-black/60 backdrop-blur-xl border border-white/10 
-                    transition-all duration-75 ease-out overflow-hidden
-                    ${getGlowColor()}
-                    ${className}
-                `}>
-                    {/* Locked "Signal Noise" Overlay */}
-                    {!active && (
-                        <div
-                            className="absolute inset-0 opacity-20 pointer-events-none z-0 mix-blend-overlay"
-                            style={{
-                                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                            }}
-                        />
-                    )}
-
-                    {/* Content */}
-                    <div className="relative z-10 w-full">
-                        {children}
-                    </div>
-                </div>
-            </motion.a>
+            {active && href.startsWith('/') ? (
+                <Link href={href} legacyBehavior passHref prefetch={true}>
+                    {CardContent}
+                </Link>
+            ) : (
+                CardContent
+            )}
         </motion.div>
     );
 };

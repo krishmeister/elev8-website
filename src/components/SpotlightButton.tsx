@@ -17,6 +17,7 @@ const SpotlightButton: React.FC<SpotlightButtonProps> = ({
     return (
         <Link
             href="/download"
+            prefetch={true}
             onClick={onClick}
             className={`
                 group relative inline-block
