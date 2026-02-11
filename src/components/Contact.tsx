@@ -1,0 +1,103 @@
+'use client';
+
+import React from 'react';
+import Image from 'next/image';
+import { Mail, Linkedin, Twitter, Instagram, ArrowRight } from 'lucide-react';
+
+const Contact = () => {
+    return (
+        <section className="pt-32 pb-0 bg-black relative overflow-hidden">
+            {/* Background Gradients */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-aurora-purple/10 rounded-full blur-[100px]" />
+            </div>
+
+            <div className="max-w-5xl mx-auto px-6 relative z-10 mb-32">
+                <div className="text-center mb-16">
+                    <h2 className="text-5xl md:text-7xl font-space font-bold text-white mb-6 tracking-tighter">
+                        READY TO <span className="text-elev8-yellow">PLAY?</span>
+                    </h2>
+                    <p className="text-gray-400 text-xl font-light">Join the hardware-free revolution today.</p>
+                </div>
+
+                <div className="bg-zinc-900/50 backdrop-blur-3xl rounded-[3rem] p-8 md:p-16 border border-white/5 shadow-2xl relative overflow-hidden group hover:border-white/10 transition-colors duration-500">
+
+                    <form className="space-y-8 relative z-10 max-w-2xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label className="block text-elev8-yellow font-mono text-xs tracking-widest mb-3 uppercase">Codename / Name</label>
+                                <input type="text" className="w-full bg-black/50 border-b border-white/20 rounded-t-lg p-4 text-white focus:outline-none focus:border-elev8-yellow focus:bg-white/5 transition-all placeholder:text-gray-700 text-lg font-space" placeholder="Enter Name" />
+                            </div>
+                            <div>
+                                <label className="block text-elev8-yellow font-mono text-xs tracking-widest mb-3 uppercase">Transmission / Email</label>
+                                <input type="email" className="w-full bg-black/50 border-b border-white/20 rounded-t-lg p-4 text-white focus:outline-none focus:border-elev8-yellow focus:bg-white/5 transition-all placeholder:text-gray-700 text-lg font-space" placeholder="Enter Email" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-elev8-yellow font-mono text-xs tracking-widest mb-3 uppercase">Message Data</label>
+                            <textarea className="w-full bg-black/50 border-b border-white/20 rounded-t-lg p-4 text-white focus:outline-none focus:border-elev8-yellow focus:bg-white/5 h-32 transition-all placeholder:text-gray-700 text-lg font-space resize-none" placeholder="Type your message..." />
+                        </div>
+
+                        <div className="pt-4 text-center">
+                            <button type="submit" className="inline-flex items-center gap-3 px-10 py-4 rounded-full bg-white text-black font-space font-bold text-lg uppercase tracking-wide hover:bg-elev8-yellow hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                                <span>Initiate Contact</span>
+                                <ArrowRight size={20} />
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export const Footer = ({ compact = false }: { compact?: boolean }) => {
+    return (
+        <footer className={`bg-black ${compact ? 'pt-8 pb-4 border-t-0' : 'pt-20 pb-10 border-t'} border-white/10 relative overflow-hidden`}>
+
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+                <div className={`flex flex-col md:flex-row justify-between items-start md:items-center ${compact ? 'mb-8 gap-6' : 'mb-20 gap-10'}`}>
+
+                    {/* Links */}
+                    <div className="flex gap-8 text-sm font-space font-bold text-gray-500 uppercase tracking-widest">
+                        <a href="/privacy-policy" className="hover:text-white transition-colors">Privacy</a>
+                        <a href="#" className="hover:text-white transition-colors">Terms</a>
+                        <a href="#" className="hover:text-white transition-colors">Docs</a>
+                    </div>
+
+                    {/* Socials */}
+                    <div className="flex gap-6">
+                        <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/5 transition-all">
+                            <Twitter size={18} />
+                        </a>
+                        <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/5 transition-all">
+                            <Linkedin size={18} />
+                        </a>
+                        <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/5 transition-all">
+                            <Instagram size={18} />
+                        </a>
+                    </div>
+                </div>
+
+                {/* MASSIVE FOOTER LOGO - Hide in compact mode if needed, or keep smaller? Layout request implies "One Screen". Massive logo takes space. I'll hide the massive logo in compact mode to save space. */}
+                {!compact && (
+                    <>
+                        <div className="w-full border-b border-white/10 mb-8" />
+                        <div className="text-center select-none">
+                            <h1 className="text-[18vw] leading-[0.8] font-black font-space text-white/5 hover:text-white/10 transition-colors tracking-tighter mix-blend-difference">
+                                ELEV8
+                            </h1>
+                        </div>
+                    </>
+                )}
+
+                <div className={`text-center ${compact ? 'mt-4' : 'mt-12'} text-[10px] font-mono text-gray-600 uppercase tracking-widest`}>
+                    All Systems Operational • © 2026 Elev8 Inc.
+                </div>
+            </div>
+        </footer>
+    );
+}
+
+export default Contact;
