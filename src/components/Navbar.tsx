@@ -149,9 +149,16 @@ const Navbar = () => {
                             </Link>
                         ))}
 
+                        {/* CTA Button (Liquid Cyber Style) */}
                         <button className="relative px-8 py-3 rounded-full font-orbitron font-black text-xs uppercase tracking-widest bg-transparent border-2 border-cyan-500 text-cyan-400 overflow-hidden group hover:text-black hover:border-cyan-400 transition-colors duration-300 shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.6)]">
-                            <span className="relative z-10 group-hover:text-black transition-colors duration-300">Source</span>
+                            <span className="relative z-10 group-hover:text-black transition-colors duration-300 flex items-center gap-2">
+                                <Zap size={16} className="group-hover:fill-black transition-colors duration-300" />
+                                BUY $ELEV8
+                            </span>
                             <div className="absolute inset-0 bg-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+
+                            {/* Shimmer Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:animate-shimmer" />
                         </button>
                     </div>
 
@@ -168,12 +175,19 @@ const Navbar = () => {
             {/* Mobile Menu */}
             {isOpen && (
                 <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-t border-white/10"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="md:hidden fixed inset-0 z-40 bg-black/90 backdrop-blur-xl flex flex-col items-center justify-center"
                 >
-                    <div className="flex flex-col p-8 gap-6">
+                    <button
+                        className="absolute top-6 right-6 text-white hover:text-cyan-400 transition-colors"
+                        onClick={() => setIsOpen(false)}
+                    >
+                        <X size={40} />
+                    </button>
+
+                    <nav className="flex flex-col items-center gap-8">
                         {[
                             { name: 'Home', href: '/' },
                             { name: 'Team', href: '/#team' },
@@ -185,15 +199,22 @@ const Navbar = () => {
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                scroll={false}
-                                className="text-xl font-orbitron font-bold uppercase tracking-wider text-white hover:text-cyan-400 hover:drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-all text-left"
+                                className="text-2xl font-orbitron font-bold uppercase tracking-wider text-white hover:text-cyan-400 hover:scale-110 transition-all"
                                 onClick={() => setIsOpen(false)}
                             >
                                 {item.name}
                             </Link>
                         ))}
-                        <button className="w-full py-4 mt-4 rounded-xl font-orbitron font-black text-sm uppercase tracking-widest bg-cyan-500 text-black hover:bg-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.5)] transition-all">
-                            Source
+                    </nav>
+
+                    {/* Mobile CTA */}
+                    <div className="mt-12">
+                        <button className="relative px-8 py-4 rounded-full font-orbitron font-black text-sm uppercase tracking-widest bg-gradient-to-r from-cyan-500 to-blue-600 text-white overflow-hidden group hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(6,182,212,0.5)]">
+                            <span className="relative z-10 flex items-center gap-2">
+                                <Zap size={18} className="fill-current" />
+                                BUY $ELEV8
+                            </span>
+                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                         </button>
                     </div>
                 </motion.div>

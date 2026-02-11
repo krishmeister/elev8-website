@@ -59,7 +59,7 @@ const CricShotPage = () => {
             </div>
 
             {/* --- HERO CONTENT --- */}
-            <div className="flex-1 flex flex-col justify-center items-center text-center w-full z-10 gap-6 px-4 relative mt-16 md:mt-20">
+            <div className="flex-1 flex flex-col justify-center items-center text-center w-full z-10 gap-6 px-4 relative pt-32">
                 {/* Clean Header Separator */}
                 <div className="w-[90%] md:w-full max-w-2xl mx-auto h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-8" />
 
