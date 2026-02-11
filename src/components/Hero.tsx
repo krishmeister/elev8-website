@@ -17,11 +17,13 @@ const Hero = () => {
                 <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black via-black/50 to-transparent z-10" />
 
                 {/* 3. Center is 100% Transparent - Video Shines Through */}
+                {/* TODO: Add poster="/hero-poster.jpg" to prevent black flash on load */}
                 <video
                     autoPlay
                     loop
                     muted
                     playsInline
+                    preload="auto"
                     className="w-full h-full object-cover brightness-[0.85]"
                 >
                     <source src="/website.mp4" type="video/mp4" />

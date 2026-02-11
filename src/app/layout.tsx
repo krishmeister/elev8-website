@@ -23,8 +23,19 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Elev8 - Hardware-Free Motion Gaming",
-  description: "World's first Hardware-Free Motion Gaming Experience",
+  title: "ELEV8 | The Motion Layer for the Spatial Web",
+  description: "The world's first hardware-free, decentralized motion gaming protocol. Turn any camera into a gaming console. Powered by $ELEV8.",
+  keywords: ["Motion Gaming", "Web3", "Solana", "AI Vision", "DePIN", "Spatial Web", "Hardware-Free Gaming", "Computer Vision", "Gesture Control"],
+  openGraph: {
+    title: "ELEV8 | The Motion Layer for the Spatial Web",
+    description: "Turn any camera into a gaming console. Hardware-free motion gaming powered by AI.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ELEV8 | Hardware-Free Motion Gaming",
+    description: "The world's first decentralized motion gaming protocol.",
+  },
 };
 
 export default function RootLayout({

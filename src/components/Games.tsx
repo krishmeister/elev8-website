@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Play } from 'lucide-react';
 
 const games = [
@@ -18,7 +19,7 @@ const Games = () => {
     const marqueeGames = [...games, ...games];
 
     return (
-        <section className="py-24 bg-black relative overflow-hidden" id="games">
+        <section className="py-24 bg-black relative overflow-hidden scroll-mt-32" id="games">
             {/* Background Atmosphere */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-aurora-purple/5 via-black to-black opacity-40 pointer-events-none" />
 
@@ -43,8 +44,9 @@ const Games = () => {
                 {/* Track */}
                 <div className="flex w-max animate-scroll gap-8 hover:[animation-play-state:paused] px-8">
                     {marqueeGames.map((game, index) => (
-                        <div
+                        <Link
                             key={`${game.title}-${index}`}
+                            href="/download"
                             className="group relative w-[300px] md:w-[400px] aspect-video shrink-0 cursor-pointer"
                         >
                             {/* Card Border & Shape */}
@@ -76,7 +78,7 @@ const Games = () => {
                                     </h3>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>

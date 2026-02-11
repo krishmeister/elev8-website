@@ -6,9 +6,14 @@ import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const pathname = usePathname();
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -17,6 +22,84 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Handle Query Param Scroll (Cross-Page Robustness)
+    useEffect(() => {
+        const target = searchParams.get('target');
+        if (target) {
+
+            // Helper to attempt scroll
+            const attemptScroll = () => {
+                const element = document.getElementById(target);
+                if (element) {
+                    // Offset for fixed header (approx 100px)
+                    const headerOffset = 100;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+
+                    // Clean URL after successful scroll
+                    const newUrl = window.location.pathname;
+                    window.history.replaceState({}, '', newUrl);
+                    return true;
+                }
+                return false;
+            };
+
+            // Immediate attempt
+            if (attemptScroll()) return;
+
+            // Poll for dynamic content (up to 5 seconds)
+            const interval = setInterval(() => {
+                if (attemptScroll()) {
+                    clearInterval(interval);
+                }
+            }, 100);
+
+            const timeout = setTimeout(() => clearInterval(interval), 5000);
+
+            return () => {
+                clearInterval(interval);
+                clearTimeout(timeout);
+            };
+        }
+    }, [searchParams]);
+
+    const handleNav = (item: string) => {
+        const targetId = item.toLowerCase();
+
+        if (item === 'Home') {
+            if (pathname === '/') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                router.push('/');
+            }
+        } else {
+            // Games / Team / Docs
+            if (pathname === '/') {
+                const element = document.getElementById(targetId);
+                if (element) {
+                    const headerOffset = 100;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            } else {
+                // Cross-page navigation via Query Param
+                // scroll: false prevents Next.js from forcing scroll to top,
+                // allowing our useEffect to handle it gracefully
+                router.push(`/?target=${targetId}`, { scroll: false });
+            }
+        }
+        setIsOpen(false);
+    };
 
     return (
         <motion.nav
@@ -46,14 +129,22 @@ const Navbar = () => {
                     </Link>
 
                     {/* Desktop Links */}
-                    <div className="hidden md:flex items-center gap-10">
-                        {['Home', 'Games', 'Team', 'Docs'].map((item) => (
+                    <div className="hidden md:flex items-center gap-8">
+                        {[
+                            { name: 'Home', href: '/' },
+                            { name: 'Team', href: '/#team' },
+                            { name: 'Games', href: '/#games' },
+                            { name: 'Roadmap', href: '/roadmap' },
+                            { name: 'Tokenomics', href: '/tokenomics' },
+                            { name: 'Whitepaper', href: '/whitepaper' }
+                        ].map((item) => (
                             <Link
-                                key={item}
-                                href={item === 'Home' ? '/' : `#${item.toLowerCase()}`}
-                                className="relative text-sm font-bold font-orbitron uppercase tracking-widest text-white/90 transition-all duration-300 hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] group"
+                                key={item.name}
+                                href={item.href}
+                                scroll={false} // Prevent Next.js scroll-to-top, let our logic handle it
+                                className="relative text-xs font-bold font-orbitron uppercase tracking-widest text-white/90 transition-all duration-300 hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] group"
                             >
-                                {item}
+                                {item.name}
                                 <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-cyan-400 transition-all duration-300 group-hover:w-full box-shadow-[0_0_8px_cyan]" />
                             </Link>
                         ))}
@@ -83,14 +174,22 @@ const Navbar = () => {
                     className="md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-t border-white/10"
                 >
                     <div className="flex flex-col p-8 gap-6">
-                        {['Home', 'Games', 'Team', 'Docs'].map((item) => (
+                        {[
+                            { name: 'Home', href: '/' },
+                            { name: 'Team', href: '/#team' },
+                            { name: 'Games', href: '/#games' },
+                            { name: 'Roadmap', href: '/roadmap' },
+                            { name: 'Tokenomics', href: '/tokenomics' },
+                            { name: 'Whitepaper', href: '/whitepaper' }
+                        ].map((item) => (
                             <Link
-                                key={item}
-                                href={item === 'Home' ? '/' : `#${item.toLowerCase()}`}
-                                className="text-xl font-orbitron font-bold uppercase tracking-wider text-white hover:text-cyan-400 hover:drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-all"
+                                key={item.name}
+                                href={item.href}
+                                scroll={false}
+                                className="text-xl font-orbitron font-bold uppercase tracking-wider text-white hover:text-cyan-400 hover:drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-all text-left"
                                 onClick={() => setIsOpen(false)}
                             >
-                                {item}
+                                {item.name}
                             </Link>
                         ))}
                         <button className="w-full py-4 mt-4 rounded-xl font-orbitron font-black text-sm uppercase tracking-widest bg-cyan-500 text-black hover:bg-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.5)] transition-all">

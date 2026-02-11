@@ -83,13 +83,17 @@ const Features = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {/* Card 1: Shark Tank */}
-                        <motion.div
+                        {/* Card 1: Shark Tank */}
+                        <motion.a
+                            href="https://www.youtube.com/watch?v=e_iZhYUV-Fs&t=151s"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.1 }}
                             whileHover={{ y: -10 }}
-                            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 flex flex-col items-center text-center group hover:border-white/20 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+                            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 flex flex-col items-center text-center group hover:border-white/20 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] cursor-pointer"
                         >
                             <div className="relative h-32 md:h-40 w-full mb-6 flex items-center justify-center">
                                 <Image
@@ -103,16 +107,20 @@ const Features = () => {
                             <p className="text-sm text-gray-400 leading-relaxed font-light mt-6">
                                 Featured on Shark Tank India Season 1, recognized as a high-potential gaming venture.
                             </p>
-                        </motion.div>
+                        </motion.a>
 
                         {/* Card 2: ISB */}
-                        <motion.div
+                        {/* Card 2: ISB */}
+                        <motion.a
+                            href="https://www.linkedin.com/feed/update/urn:li:activity:7382354226712084482/"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.2 }}
                             whileHover={{ y: -10 }}
-                            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 flex flex-col items-center text-center group hover:border-white/20 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+                            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 flex flex-col items-center text-center group hover:border-white/20 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] cursor-pointer"
                         >
                             <div className="relative h-32 md:h-40 w-full mb-6 flex items-center justify-center">
                                 <Image
@@ -126,7 +134,7 @@ const Features = () => {
                             <p className="text-sm text-gray-400 leading-relaxed font-light mt-6">
                                 Selected for ISB Hyderabad's prestigious Gaming Accelerator, supported by industry titans.
                             </p>
-                        </motion.div>
+                        </motion.a>
 
                         {/* Card 3: K-Startup */}
                         <motion.div
@@ -166,8 +174,11 @@ const Features = () => {
                     {/* Brand Logos Grid - Fixed Alignment */}
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center justify-items-center">
                         {brandData.map((brand) => (
-                            <motion.div
+                            <motion.a
                                 key={brand.id}
+                                href="https://seed-coast-451.notion.site/LOKA-Brand-Activations-22b4d447929c8050ac3bf17ec7cfe793?source=copy_link"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="group cursor-pointer relative"
                                 onMouseEnter={() => setActiveBrand(brand)}
                                 onMouseLeave={() => setActiveBrand(null)}
@@ -183,7 +194,7 @@ const Features = () => {
                                         className="h-24 md:h-32 w-auto object-contain"
                                     />
                                 </div>
-                            </motion.div>
+                            </motion.a>
                         ))}
                     </div>
 
@@ -224,7 +235,7 @@ const Features = () => {
                 </div>
 
                 {/* Bento Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[300px]">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-auto md:auto-rows-[300px]">
 
                     {/* Card 1: Large - No Hardware (Span 2 cols, 2 rows) */}
                     <motion.div

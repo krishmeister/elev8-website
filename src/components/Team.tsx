@@ -26,7 +26,7 @@ const squad = [
 
 const Team = () => {
     return (
-        <section className="py-32 bg-black relative overflow-hidden" id="team">
+        <section className="py-32 bg-black relative overflow-hidden scroll-mt-32" id="team">
             {/* Scanline / Grid Background Overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none z-0 opacity-20" />
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none z-0" />
