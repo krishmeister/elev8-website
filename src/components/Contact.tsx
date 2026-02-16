@@ -1,32 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { Mail, Linkedin, Twitter, Instagram, ArrowRight, Youtube, CheckCircle } from 'lucide-react';
+import React from 'react';
+import { useForm, ValidationError } from '@formspree/react';
+import { Linkedin, Twitter, Instagram, ArrowRight, Youtube, CheckCircle } from 'lucide-react';
 
 const Contact = () => {
-    const [submitted, setSubmitted] = useState(false);
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const form = e.currentTarget;
-
-        try {
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                setSubmitted(true);
-            }
-        } catch (error) {
-            console.error('Form submission error:', error);
-        }
-    };
+    const [state, handleSubmit] = useForm("mgolywpd");
 
     return (
         <section className="pt-32 pb-0 bg-black relative overflow-hidden scroll-mt-32" id="contact">
@@ -45,7 +24,7 @@ const Contact = () => {
 
                 <div className="bg-zinc-900/50 backdrop-blur-3xl rounded-[3rem] p-8 md:p-16 border border-white/5 shadow-2xl relative overflow-hidden group hover:border-white/10 transition-colors duration-500">
 
-                    {submitted ? (
+                    {state.succeeded ? (
                         /* Success State - Enhanced Cyber UI */
                         <div className="flex flex-col items-center justify-center py-16 gap-6 relative">
                             {/* Glitch Effect Background */}
@@ -67,7 +46,7 @@ const Contact = () => {
                             </p>
 
                             <button
-                                onClick={() => setSubmitted(false)}
+                                onClick={() => window.location.reload()}
                                 className="mt-8 px-8 py-3 rounded-full border border-white/10 text-white font-mono text-sm tracking-widest hover:bg-white/10 hover:border-cyan-400 transition-all duration-300"
                             >
                                 SEND ANOTHER TRANSMISSION
@@ -76,8 +55,6 @@ const Contact = () => {
                     ) : (
                         /* Form */
                         <form
-                            action="https://formspree.io/krishnan@lokaworld.app"
-                            method="POST"
                             onSubmit={handleSubmit}
                             className="space-y-8 relative z-10 max-w-2xl mx-auto"
                         >
@@ -91,6 +68,7 @@ const Contact = () => {
                                         className="w-full bg-black/50 border-b border-white/20 rounded-t-lg p-4 text-white focus:outline-none focus:border-elev8-yellow focus:bg-white/5 transition-all placeholder:text-gray-700 text-lg font-space"
                                         placeholder="Enter Name"
                                     />
+                                    <ValidationError prefix="Name" field="Name" errors={state.errors} className="text-red-500 text-xs mt-1" />
                                 </div>
                                 <div>
                                     <label className="block text-elev8-yellow font-mono text-xs tracking-widest mb-3 uppercase">Transmission / Email</label>
@@ -101,6 +79,7 @@ const Contact = () => {
                                         className="w-full bg-black/50 border-b border-white/20 rounded-t-lg p-4 text-white focus:outline-none focus:border-elev8-yellow focus:bg-white/5 transition-all placeholder:text-gray-700 text-lg font-space"
                                         placeholder="Enter Email"
                                     />
+                                    <ValidationError prefix="Email" field="Email" errors={state.errors} className="text-red-500 text-xs mt-1" />
                                 </div>
                             </div>
 
@@ -112,12 +91,17 @@ const Contact = () => {
                                     className="w-full bg-black/50 border-b border-white/20 rounded-t-lg p-4 text-white focus:outline-none focus:border-elev8-yellow focus:bg-white/5 h-32 transition-all placeholder:text-gray-700 text-lg font-space resize-none"
                                     placeholder="Type your message..."
                                 />
+                                <ValidationError prefix="Message" field="Message" errors={state.errors} className="text-red-500 text-xs mt-1" />
                             </div>
 
                             <div className="pt-4 text-center">
-                                <button type="submit" className="inline-flex items-center gap-3 px-10 py-4 rounded-full bg-white text-black font-space font-bold text-lg uppercase tracking-wide hover:bg-elev8-yellow hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                                    <span>Initiate Contact</span>
-                                    <ArrowRight size={20} />
+                                <button
+                                    type="submit"
+                                    disabled={state.submitting}
+                                    className="inline-flex items-center gap-3 px-10 py-4 rounded-full bg-white text-black font-space font-bold text-lg uppercase tracking-wide hover:bg-elev8-yellow hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    <span>{state.submitting ? 'Transmitting...' : 'Initiate Contact'}</span>
+                                    {!state.submitting && <ArrowRight size={20} />}
                                 </button>
                             </div>
                         </form>
