@@ -46,20 +46,37 @@ const Contact = () => {
                 <div className="bg-zinc-900/50 backdrop-blur-3xl rounded-[3rem] p-8 md:p-16 border border-white/5 shadow-2xl relative overflow-hidden group hover:border-white/10 transition-colors duration-500">
 
                     {submitted ? (
-                        /* Success State */
-                        <div className="flex flex-col items-center justify-center py-16 gap-6">
-                            <CheckCircle className="w-16 h-16 text-green-400 animate-pulse drop-shadow-[0_0_20px_rgba(74,222,128,0.6)]" />
-                            <p className="text-green-400 font-mono text-xl text-center tracking-wide drop-shadow-[0_0_10px_rgba(74,222,128,0.4)]">
-                                TRANSMISSION RECEIVED.
+                        /* Success State - Enhanced Cyber UI */
+                        <div className="flex flex-col items-center justify-center py-16 gap-6 relative">
+                            {/* Glitch Effect Background */}
+                            <div className="absolute inset-0 bg-cyan-500/5 animate-pulse rounded-[3rem]" />
+
+                            <CheckCircle className="w-20 h-20 text-cyan-400 animate-bounce drop-shadow-[0_0_20px_rgba(34,211,238,0.6)]" />
+
+                            <div className="text-center space-y-2 relative z-10">
+                                <h3 className="text-3xl font-spacing font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-white drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">
+                                    UPLINK ESTABLISHED
+                                </h3>
+                                <p className="text-cyan-400/80 font-mono text-lg tracking-wider">
+                                    TRANSMISSION SUCCESSFUL.
+                                </p>
+                            </div>
+
+                            <p className="text-gray-400 max-w-md text-center">
+                                Your message has been encrypted and sent to our secure terminal. We will initiate contact shortly.
                             </p>
-                            <p className="text-green-400/70 font-mono text-lg text-center">
-                                WE WILL CONTACT YOU SHORTLY.
-                            </p>
+
+                            <button
+                                onClick={() => setSubmitted(false)}
+                                className="mt-8 px-8 py-3 rounded-full border border-white/10 text-white font-mono text-sm tracking-widest hover:bg-white/10 hover:border-cyan-400 transition-all duration-300"
+                            >
+                                SEND ANOTHER TRANSMISSION
+                            </button>
                         </div>
                     ) : (
                         /* Form */
                         <form
-                            action="https://formspree.io/f/mqkvrqwb"
+                            action="https://formspree.io/krishnan@lokaworld.app"
                             method="POST"
                             onSubmit={handleSubmit}
                             className="space-y-8 relative z-10 max-w-2xl mx-auto"
@@ -69,7 +86,7 @@ const Contact = () => {
                                     <label className="block text-elev8-yellow font-mono text-xs tracking-widest mb-3 uppercase">Codename / Name</label>
                                     <input
                                         type="text"
-                                        name="name"
+                                        name="Name"
                                         required
                                         className="w-full bg-black/50 border-b border-white/20 rounded-t-lg p-4 text-white focus:outline-none focus:border-elev8-yellow focus:bg-white/5 transition-all placeholder:text-gray-700 text-lg font-space"
                                         placeholder="Enter Name"
@@ -79,7 +96,7 @@ const Contact = () => {
                                     <label className="block text-elev8-yellow font-mono text-xs tracking-widest mb-3 uppercase">Transmission / Email</label>
                                     <input
                                         type="email"
-                                        name="email"
+                                        name="Email"
                                         required
                                         className="w-full bg-black/50 border-b border-white/20 rounded-t-lg p-4 text-white focus:outline-none focus:border-elev8-yellow focus:bg-white/5 transition-all placeholder:text-gray-700 text-lg font-space"
                                         placeholder="Enter Email"
@@ -90,7 +107,7 @@ const Contact = () => {
                             <div>
                                 <label className="block text-elev8-yellow font-mono text-xs tracking-widest mb-3 uppercase">Message Data</label>
                                 <textarea
-                                    name="message"
+                                    name="Message"
                                     required
                                     className="w-full bg-black/50 border-b border-white/20 rounded-t-lg p-4 text-white focus:outline-none focus:border-elev8-yellow focus:bg-white/5 h-32 transition-all placeholder:text-gray-700 text-lg font-space resize-none"
                                     placeholder="Type your message..."
