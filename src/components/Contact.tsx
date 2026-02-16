@@ -123,8 +123,7 @@ export const Footer = ({ compact = false }: { compact?: boolean }) => {
                     {/* Links */}
                     <div className="flex gap-8 text-sm font-space font-bold text-gray-500 uppercase tracking-widest justify-center md:justify-start">
                         <a href="/privacy-policy" className="hover:text-white transition-colors">Privacy</a>
-                        <a href="#" className="hover:text-white transition-colors">Terms</a>
-                        <a href="#" className="hover:text-white transition-colors">Docs</a>
+                        <a href="/data-delete" className="hover:text-white transition-colors">Data Delete</a>
                     </div>
 
                     {/* Socials */}
